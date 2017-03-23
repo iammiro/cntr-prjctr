@@ -1,4 +1,5 @@
 mixin b-main-item(src, text)
 	+b('div').main-item
-		+e('img').img(src=src)
-		+e('p').p!=text
+		+e('a').link(href='index-2.html')
+			+e('img').img(src=src)
+			+e('p').p!=text

@@ -63,16 +63,5 @@ Barba.Pjax.getTransition = function () {
 Barba.Pjax.start();
 
 Barba.Dispatcher.on('newPageReady', function (currentStatus, oldStatus, container) {
-    $('body').css('color', 'red');
-});
-
-
-
-$(function() {
-    $(".ul__navigation-item").click(function() {
-        $("#nav-li-1").removeClass("is-active");
-        $("#nav-li-2").removeClass("is-active");
-        $("#nav-li-3").removeClass("is-active");
-        $(this).addClass("is-active");
-    });
+    // $('body').css('color', 'red');
 });
