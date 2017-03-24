@@ -1,6 +1,6 @@
-mixin b-under-header-nav()
+mixin b-under-header-nav(header, step)
 	+b('div').under-header-nav
 		+e('div').wrap
 			+e('a')(href="/").link-btn Назад
-			+e('p').p Виберіть послугу
-			+e('p').indicator крок 2 із 3
+			+e('p').p!=header
+			+e('p').indicator!=step

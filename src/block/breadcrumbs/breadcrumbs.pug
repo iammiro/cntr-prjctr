@@ -1,0 +1,7 @@
+mixin b-breadcrumbs(step1, step2, step3, step4)
+	+b('div').under-header
+		+e('div').wrap
+			+e('a')(href="index.html").link!=step1
+			+e('a')(href="index-2.html").link!=step2
+			+e('a')(href="index-3.html").link!=step3
+			+e('a')(href="index-4.html").link!=step4
