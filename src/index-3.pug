@@ -8,8 +8,10 @@ block main
 			- step1 = 'Послуги'
 			- step2 = '&#8195;&#8250;&#8195;Підприємницька діяльність'
 			- step3 = '&#8195;&#8250;&#8195;Видача ліцензії на експорт товарів'
-			+b-breadcrumbs(step1, step2, step3, step4)
+			+b-breadcrumbs(step1, step2, step3)
 			- step = 'крок 3 із 3'
 			- header = 'Перевірте наявність документів'
 			+b-under-header-nav(header, step)
-			+b('div').row
+			+b-list()
+			- linkText = 'Записатись'
+			+b-btn(linkText)
