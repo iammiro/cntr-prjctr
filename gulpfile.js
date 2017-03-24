@@ -13,6 +13,8 @@ const cleanCSS = require('gulp-clean-css');
 const concatCss = require('gulp-concat-css');
 const Filter = require('gulp-filter');
 const babel = require('gulp-babel');
+const uglify = require('gulp-uglify');
+const pump = require('pump');
 
 // Static server
 gulp.task('serve', ['stylus', 'pug', 'min-js', 'min-css', 'min-scripts', 'compress-images'], function () {
@@ -28,34 +30,41 @@ gulp.task('serve', ['stylus', 'pug', 'min-js', 'min-css', 'min-scripts', 'compre
     gulp.watch('build/*.*').on('change', browserSync.reload);
 });
 
-//Сжатие и перемещение изображений
+//compress images
 gulp.task('compress-images', function () {
     gulp.src('src/assets/img/*')
         .pipe(imagemin())
         .pipe(gulp.dest('build/img'))
 });
 
-//Сжатие js
-gulp.task('min-js', function () {
-    gulp.src('src/block/**/*.js')
-        .pipe(concat('main.js'))
-        // .pipe(minify())
-        .pipe(babel({
-            presets: ['es2015']
-        }))
-        .pipe(gulp.dest('build/js/'))
-        .pipe(browserSync.stream());
+//compress js
+gulp.task('min-js', function (cb) {
+    pump([
+            gulp.src('src/block/**/*.js')
+            .pipe(concat('main.js'))
+                .pipe(babel({
+                    presets: ['es2015']
+                })),
+            uglify(),
+            gulp.dest('build/js/')
+        ],
+        cb
+    );
 });
 
-//Конкатенация js библиотек
-gulp.task('min-scripts', function () {
-    return gulp.src('src/assets/vendor/*.js')
-        .pipe(concat('bundle.js'))
-        // .pipe(minify())
-        .pipe(gulp.dest('build/js/'));
+//concat and compress js lib
+gulp.task('min-scripts', function (cb) {
+    pump([
+            gulp.src('src/assets/vendor/*.js')
+                .pipe(concat('bundle.js')),
+            uglify(),
+            gulp.dest('build/js/')
+        ],
+        cb
+    );
 });
 
-//Конкатенация CSS сторонних вендоров
+//concat vendor CSS
 gulp.task('min-css', function () {
     return gulp.src('src/assets/vendor/*.css')
         .pipe(concatCss("bundle.css"))
@@ -63,7 +72,7 @@ gulp.task('min-css', function () {
         .pipe(gulp.dest('build/css/'));
 });
 
-// Компиляция + автопрефиксер + минификация файлов Stylus
+// compile + autoprefixer + compress .styl
 gulp.task('stylus', function () {
     const f = Filter(['src/block/**/*.styl'], {restore: true});
     return gulp.src('src/block/**/*.styl')
@@ -75,7 +84,8 @@ gulp.task('stylus', function () {
         .pipe(gulp.dest('build/css'))
         .pipe(browserSync.stream());
 });
-// Компиляция файлов PUG
+
+// compile .pug
 gulp.task('pug', function () {
     return gulp.src('src/*.pug')
         .pipe(pug())
@@ -83,7 +93,7 @@ gulp.task('pug', function () {
         .pipe(browserSync.stream());
 });
 
-// Компиляция файлов Coffee
+// compile .coffee
 gulp.task('coffee', function () {
     return gulp.src('src/**/*.coffee')
         .pipe(coffee())
