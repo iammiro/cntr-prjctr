@@ -1,0 +1,7 @@
+mixin b-done()
+	+b('div').done-wrap
+		+e('div').header!= 'Готово!'
+		+e('div').timer!= 'Орієнтований час очікування 42 сек.'
+		+e('div').number-header!= 'Ваш номер в черзі:'
+		+b('div').number-wrap
+			+e('div').number!= '256'
