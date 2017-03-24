@@ -10,7 +10,8 @@ block main
 			+b-breadcrumbs(step1, step2, step3)
 			- header = 'Виберіть послугу'
 			- step = 'крок 2 із 3'
-			+b-under-header-nav(header, step)
+			- url = 'index.html'
+			+b-under-header-nav(header, step, url)
 			+b('div').row
 				- text = 'Видача ліцензії на імпорт товарів'
 				+b-service-item(text)

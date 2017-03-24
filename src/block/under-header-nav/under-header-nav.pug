@@ -1,6 +1,8 @@
-mixin b-under-header-nav(header, step)
+mixin b-under-header-nav(header, step, url)
 	+b('div').under-header-nav
 		+e('div').wrap
-			+e('a')(href="/").link-btn Назад
+			+b('div').back-btn
+				+e('a').link(href='/' + url) Назад
+					+e('img').img(src="img/back.png")
 			+e('p').p!=header
 			+e('p').indicator!=step
